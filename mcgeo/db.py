@@ -7,6 +7,22 @@ class MongoGeoStoryDatabase(MongoStoryDatabase):
     Simply supports the server example by making queries easier
     '''
 
+    def storyCountByMediaSource(self, country_code):
+        key = ['media_id']
+        condition = {'country_code': country_code}
+        initial = {'value':0}
+        reduce = Code("function(doc,prev) { prev.value += 1; }") 
+        rawResults = self._db.stories.group(key, condition, initial, reduce);
+        return self._resultsToDict(rawResults,'media_id')
+
+    def storyCountByCountry(self, media_id):
+        key = ['country_code']
+        condition = {'media_id': int(media_id)}
+        initial = {'value':0}
+        reduce = Code("function(doc,prev) { prev.value += 1; }") 
+        rawResults = self._db.stories.group(key, condition, initial, reduce);
+        return self._resultsToDict(rawResults,'country_code')
+
     def storyCountByCountryCode(self):
         key = ['country_code']
         condition = None

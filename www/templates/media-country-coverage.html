@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+
+  <div class="span12">
+    <h1>Country Coverage in {{media_info['name']}}</h1>
+    <p>We have {{story_count}} stories from {{media_info['name']}} in the database</p>
+  </div>
+</div>
+
+<div>
+
+  <div class="span12">
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <th>Country Code</th>
+          <th>Country Name</th>
+          <th>Story Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for info in coverage %}
+        <tr>
+          <td><a href="/country/{{country_code}}/media-coverage">{{info['country_code']}}</a></td>
+          <td><a href="/country/{{country_code}}/media-coverage">{{info['country_name']}}</a></td>
+          <td>{{info['story_count']}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+{% endblock %}
