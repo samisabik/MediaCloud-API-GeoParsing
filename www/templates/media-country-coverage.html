@@ -23,8 +23,8 @@
       <tbody>
         {% for info in coverage %}
         <tr>
-          <td><a href="/country/{{country_code}}/media-coverage">{{info['country_code']}}</a></td>
-          <td><a href="/country/{{country_code}}/media-coverage">{{info['country_name']}}</a></td>
+          <td><a href="/country/{{info['country_code']}}/media-coverage">{{info['country_code']}}</a></td>
+          <td><a href="/country/{{info['country_code']}}/media-coverage">{{info['country_name']}}</a></td>
           <td>{{info['story_count']}}</td>
         </tr>
         {% endfor %}
