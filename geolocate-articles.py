@@ -26,7 +26,7 @@ config = ConfigParser.ConfigParser()
 config.read(CONFIG_FILENAME)
 
 # setup logging
-logging.basicConfig(filename='mc-realtime.log',level=logging.DEBUG)
+logging.basicConfig(filename='mc-geo.log',level=logging.DEBUG)
 log = logging.getLogger('mc-realtime')
 log.info("---------------------------------------------------------------------------")
 
@@ -39,7 +39,9 @@ except pymongo.errors.ConnectionFailure, e:
 log.info("Connected to "+config.get('db','name')+" on "+config.get('db','host')+":"+str(config.get('db','port')))
 
 # setup a connection to the geocoder
-clavin.connect()
+worked = clavin.connect()
+if not worked:
+    sys.exit()
 
 # setup the mediacloud connection
 mc = MediaCloud( config.get('api','user'), config.get('api','pass') )

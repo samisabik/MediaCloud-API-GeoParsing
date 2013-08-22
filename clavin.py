@@ -2,7 +2,6 @@
 import socket
 import logging
 import json
-import sys
 
 log = logging.getLogger('mc-realtime')
 clavin_socket = None
@@ -15,9 +14,11 @@ def connect(host="127.0.0.1", port=4000):
       clavin_socket.connect((host, port))
       clavin_socket_file = clavin_socket.makefile('r') 
     except socket.error, msg:
+      log.error("CLAVIN: Unable to connect to CLAVIN server at "+host+":"+str(port))
       log.error(msg[1])
-      sys.exit(1)
+      return False
     log.info("CLAVIN: Connected to CLAVIN server at "+host+":"+str(port))
+    return True
 
 def locate(text):
     clavin_socket.send(text.encode('utf-8')+"\n")

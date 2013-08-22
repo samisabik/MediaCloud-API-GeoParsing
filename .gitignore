@@ -2,3 +2,4 @@ mc-client.config
 *.pyc
 */*.pyc
 www/mc-server.log
+*.log
