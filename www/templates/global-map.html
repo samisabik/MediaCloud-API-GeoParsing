@@ -5,7 +5,8 @@
 
   <div class="span12">
     <h1>Media Coverage</h1>
-    <p>We have {{located_story_count}} articles in our database. Click on a country to see more details.</p>
+    <p>We have {{located_story_count}} articles in our database. 
+      Click on a country to see a list of how many times each media source mentioned it.</p>
   </div>
 
 </div>
@@ -36,7 +37,7 @@ $(function(){
       }
     },
     onRegionLabelShow: function(e, el, code){
-      el.html(el.html()+' ('+storyCountByCountry[code]+' stories)');
+      el.html(el.html()+' ('+storyCountByCountry[code]+' mentions)');
     },
     onRegionClick: function(e, code){
       window.location = window.location+"country/"+code+"/media-coverage"
