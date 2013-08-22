@@ -8,7 +8,7 @@ Installation
 
 Make sure you havy Python 2.7 (and the pip package manager).
 
-You also need to install the flask and feedparser libraries
+You also need to install the flask and libraries:
 
 ```
 pip install flask

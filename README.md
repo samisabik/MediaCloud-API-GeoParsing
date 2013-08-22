@@ -15,9 +15,7 @@ some python modules:
 Now to run these examples make sure you have Python > 2.6 (and setuptools) and then install 
 some python modules:
     
-    easy_install pypubsub
-    easy_install nltk
-    easy_install pymongo
+    easy_install pypubsub requests unicodecsv pymongo couchdb
     
 Install [MongoDb](http://mongodb.org) to store article info.
 
