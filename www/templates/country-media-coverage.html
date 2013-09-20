@@ -16,7 +16,8 @@
       <thead>
         <tr>
           <th>Media Source</th>
-          <th>Story Count</th>
+          <th>Mentions</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -24,6 +25,7 @@
         <tr>
           <td><a href="/media/{{info['id']}}/country-coverage">{{info['name']}}</a></td>
           <td>{{info['story_count']}}</td>
+          <td><a href="/media/{{info['id']}}/{{country_code}}/stories">see stories</a></td>
         </tr>
         {% endfor %}
       </tbody>

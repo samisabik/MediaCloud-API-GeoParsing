@@ -19,8 +19,11 @@ class MongoGeoStoryDatabase(MongoStoryDatabase):
         mapper = Code("""
                function () {
                  var countryCode = '"""+country_code+"""';
-                 if(countryCode in this.country_mentions){
-                    emit(this.media_id,this.country_mentions[countryCode]);
+                 for(var idx in this.country_mentions){
+                    var mention = this.country_mentions[idx];
+                    if(countryCode==mention.country_code){
+                      emit(this.media_id, mention.mention_count);
+                    }
                  }
                }
                """)
@@ -49,6 +52,29 @@ class MongoGeoStoryDatabase(MongoStoryDatabase):
         raw_results = self._db.stories.group(key, condition, initial, reduce);
         return self._resultsToDict(raw_results,'country_code')
 
+    def countryStories(self, country_code, media_id=None):
+        criteria = {'country_code': country_code}
+        if media_id is not None:
+          criteria['media_id'] = int(media_id)
+        docs = []
+        for doc in self._db.stories.find(criteria):
+            docs.append(doc)
+        return docs
+
+    def mentionedCountryStories(self, country_code, media_id=None):
+        # http://docs.mongodb.org/manual/reference/method/db.collection.find/
+        criteria = {'country_mentions': {
+          '$elemMatch': {
+            'country_code': country_code
+          }
+        }}
+        if media_id is not None:
+          criteria['media_id'] = int(media_id)
+        docs = []
+        for doc in self._db.stories.find(criteria):
+            docs.append(doc)
+        return docs
+
     def mentionedStoryCountByCountry(self,media_id=None):
         extraJS = "";
         if media_id is not None:
@@ -56,9 +82,10 @@ class MongoGeoStoryDatabase(MongoStoryDatabase):
         mapper = Code("""
                function () {
                  """+extraJS+"""
-                 for(var countryCode in this.country_mentions){
-                    if(countryCode.length==2){
-                        emit(countryCode,this.country_mentions[countryCode]);
+                 for(var idx in this.country_mentions){
+                    var mention = this.country_mentions[idx];
+                    if(mention.country_code.length==2){
+                        emit(mention.country_code,mention.mention_count);
                     }
                  }
                }

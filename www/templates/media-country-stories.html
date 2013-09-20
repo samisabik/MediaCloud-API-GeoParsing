@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+
+  <div class="span12">
+    <h1>Stories in {{media_info['name']}} about {{country_name}}</h1>
+  </div>
+</div>
+
+<div>
+
+  <div class="span12">
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for doc in stories %}
+        <tr>
+          <td>
+            {{doc['title']}}
+          </td>
+          <td>
+              <a class="btn" href="#details-{{doc['_id']}}" data-toggle="modal">details</a> 
+              <a href="{{doc['url']}}" class="btn">original</a>
+          </td>
+        </tr>
+        <div class="modal fade" id="details-{{doc['_id']}}">
+          <div class="modal-header"><h3>{{doc['title']}}</h3></div>
+          <div class="modal-body">
+            <pre class="json">{{doc['country_mentions']|formatted_json}} </pre>
+            <pre class="json">{{doc['locations']|formatted_json}} </pre>
+            {{doc['description']|safe}}
+          </div>
+          <div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">Close</a></div>
+        </div>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+
+
+{% endblock %}

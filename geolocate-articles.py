@@ -19,7 +19,7 @@ This example is meant to be run from a cron job on a server. It fetches all stor
 created page by page. It saves the metadata for all those to a 'mediacloud' database.
 '''
 
-MAX_PAGES_TO_FETCH = 1
+MAX_PAGES_TO_FETCH = 10
 CONFIG_FILENAME = 'mc-client.config'
 
 config = ConfigParser.ConfigParser()

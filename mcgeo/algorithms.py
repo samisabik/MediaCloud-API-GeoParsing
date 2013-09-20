@@ -18,8 +18,11 @@ def addLocationsToStory(db_story, raw_story):
             if country not in country_mentions:
                 country_mentions[country] = 0
             country_mentions[country] += 1
+        country_mention_array = []
         for country in country_mentions:
             if country_mentions[country] > max_country['mentions']:
                 max_country = {'country': country,'mentions': country_mentions[country]}
+            country_mention_array.append( {'country_code':country, 'mention_count':country_mentions[country]} )
+
         db_story['country_code'] = max_country['country']
-        db_story['country_mentions'] = country_mentions
+        db_story['country_mentions'] = country_mention_array
