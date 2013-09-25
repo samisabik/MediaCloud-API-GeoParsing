@@ -3,7 +3,7 @@ import socket
 import logging
 import json
 
-log = logging.getLogger('mc-realtime')
+log = logging.getLogger('mc-clavin')
 clavin_socket = None
 clavin_socket_file = None
 

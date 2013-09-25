@@ -9,7 +9,7 @@ parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0,parentdir) 
 from mcgeo.db import MongoGeoStoryDatabase
 
-USE_MENTIONED = True
+USE_MENTIONED = False
 
 app = Flask(__name__)
 

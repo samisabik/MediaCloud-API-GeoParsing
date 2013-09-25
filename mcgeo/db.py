@@ -9,7 +9,7 @@ class MongoGeoStoryDatabase(MongoStoryDatabase):
 
     def storyCountByMediaSource(self, country_code):
         key = ['media_id']
-        condition = {'country_code': country_code}
+        condition = {'geo_primary_country': country_code}
         initial = {'value':0}
         reduce = Code("function(doc,prev) { prev.value += 1; }") 
         raw_results = self._db.stories.group(key, condition, initial, reduce);
@@ -19,9 +19,9 @@ class MongoGeoStoryDatabase(MongoStoryDatabase):
         mapper = Code("""
                function () {
                  var countryCode = '"""+country_code+"""';
-                 for(var idx in this.country_mentions){
-                    var mention = this.country_mentions[idx];
-                    if(countryCode==mention.country_code){
+                 for(var idx in this.geo_country_mentions){
+                    var mention = this.geo_country_mentions[idx];
+                    if(countryCode==mention.geo_primary_country){
                       emit(this.media_id, mention.mention_count);
                     }
                  }
@@ -43,17 +43,17 @@ class MongoGeoStoryDatabase(MongoStoryDatabase):
         return self._resultsToDict(docs,'_id')        
 
     def storyCountByCountry(self, media_id=None):
-        key = ['country_code']
+        key = ['geo_primary_country']
         condition = None
         if media_id is not None:
             condition = {'media_id': int(media_id)}    
         initial = {'value':0}
         reduce = Code("function(doc,prev) { prev.value += 1; }") 
         raw_results = self._db.stories.group(key, condition, initial, reduce);
-        return self._resultsToDict(raw_results,'country_code')
+        return self._resultsToDict(raw_results,'geo_primary_country')
 
     def countryStories(self, country_code, media_id=None):
-        criteria = {'country_code': country_code}
+        criteria = {'geo_primary_country': country_code}
         if media_id is not None:
           criteria['media_id'] = int(media_id)
         docs = []
@@ -63,7 +63,7 @@ class MongoGeoStoryDatabase(MongoStoryDatabase):
 
     def mentionedCountryStories(self, country_code, media_id=None):
         # http://docs.mongodb.org/manual/reference/method/db.collection.find/
-        criteria = {'country_mentions': {
+        criteria = {'geo_country_mentions': {
           '$elemMatch': {
             'country_code': country_code
           }
@@ -82,8 +82,8 @@ class MongoGeoStoryDatabase(MongoStoryDatabase):
         mapper = Code("""
                function () {
                  """+extraJS+"""
-                 for(var idx in this.country_mentions){
-                    var mention = this.country_mentions[idx];
+                 for(var idx in this.geo_country_mentions){
+                    var mention = this.geo_country_mentions[idx];
                     if(mention.country_code.length==2){
                         emit(mention.country_code,mention.mention_count);
                     }

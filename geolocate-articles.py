@@ -19,7 +19,7 @@ This example is meant to be run from a cron job on a server. It fetches all stor
 created page by page. It saves the metadata for all those to a 'mediacloud' database.
 '''
 
-MAX_PAGES_TO_FETCH = 10
+MAX_PAGES_TO_FETCH = 1
 CONFIG_FILENAME = 'mc-client.config'
 
 config = ConfigParser.ConfigParser()
@@ -27,7 +27,7 @@ config.read(CONFIG_FILENAME)
 
 # setup logging
 logging.basicConfig(filename='mc-geo.log',level=logging.DEBUG)
-log = logging.getLogger('mc-realtime')
+log = logging.getLogger('mc-geo')
 log.info("---------------------------------------------------------------------------")
 
 # setup a connection to the DB

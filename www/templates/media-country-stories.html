@@ -32,8 +32,8 @@
         <div class="modal fade" id="details-{{doc['_id']}}">
           <div class="modal-header"><h3>{{doc['title']}}</h3></div>
           <div class="modal-body">
-            <pre class="json">{{doc['country_mentions']|formatted_json}} </pre>
-            <pre class="json">{{doc['locations']|formatted_json}} </pre>
+            <pre class="json">{{doc['geo_country_mentions']|formatted_json}} </pre>
+            <pre class="json">{{doc['geo_places']|formatted_json}} </pre>
             {{doc['description']|safe}}
           </div>
           <div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">Close</a></div>
@@ -44,7 +44,5 @@
   </div>
 
 </div>
-
-
 
 {% endblock %}
